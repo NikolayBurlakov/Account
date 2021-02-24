@@ -6,5 +6,3 @@ from stamp.serializers import DillerDetailSerializer, UserDetailSerializer
 
 class StampCreateView(generics.CreateAPIView):
     serializer_class = DillerDetailSerializer
-
-
