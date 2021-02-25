@@ -4,5 +4,7 @@ from stamp.views import *
 
 app_name = 'stamp'
 urlpatterns = [
-    path('stamp/create/', StampCreateView.as_view())
+    path('diller/create/', DillerCreateView.as_view()),
+    path('plotter/create/', PlotterCreateView.as_view()),
+    path('mold/create/', MoldCreateView.as_view()),
 ]

@@ -1,8 +1,18 @@
 from django.shortcuts import render
 from rest_framework import generics
-from stamp.serializers import DillerDetailSerializer, UserDetailSerializer
-# Create your views here.
+from stamp.serializers import *
 
 
-class StampCreateView(generics.CreateAPIView):
+class DillerCreateView(generics.CreateAPIView):
     serializer_class = DillerDetailSerializer
+
+
+# class DillerListView(generics.ListAPIView):
+#     serializer_class =
+
+class PlotterCreateView(generics.CreateAPIView):
+    serializer_class = PlotterDetailSerializer
+
+
+class MoldCreateView(generics.CreateAPIView):
+    serializer_class = MoldDetailSerializer

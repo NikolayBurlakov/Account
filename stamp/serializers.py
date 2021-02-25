@@ -1,16 +1,20 @@
 from rest_framework import serializers
-from stamp.models import Diller
-from django.contrib.auth.models import User
+from stamp.models import Diller, Plotter, Mold
 
 
 class DillerDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Diller
-        fields = ('id', 'username', 'plotter')
+        fields = '__all__'
 
 
-class UserDetailSerializer(serializers.HyperlinkedModelSerializer):
+class PlotterDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('id', 'username', 'plotter', 'amount_of_mold')
+        model = Plotter
+        fields = '__all__'
 
+
+class MoldDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mold
+        fields = '__all__'
