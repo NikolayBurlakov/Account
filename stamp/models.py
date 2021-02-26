@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User as DefaultUser, PermissionsMixin
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from rest_framework.permissions import BasePermission
 
 
 class User(DefaultUser):
-    name_of_user = models.CharField(max_length=255, verbose_name='User_name')
+    login_user = models.CharField(max_length=255, default='', verbose_name='Login name')
 
     def __str__(self):
-        return self.name_of_user
+        return self.login_user
 
 
 class Diller(models.Model):
@@ -54,7 +55,7 @@ class Mold(models.Model):
     price = models.IntegerField(verbose_name='Цена', default=0)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
-    plotter_id = models.ManyToManyField(Plotter, verbose_name='Название')
+    plotter_id = models.ManyToManyField(Plotter, verbose_name='Плоттер')
 
     class Meta:
         ordering = ['-created']

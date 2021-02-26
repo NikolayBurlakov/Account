@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from rest_framework import generics
 from stamp.serializers import *
+# from stamp.models import IsAuthenticatedAndOwner
 
 
 # Diller
 class DillerCreateView(generics.CreateAPIView):
-
-
     serializer_class = DillerDetailSerializer
     queryset = Diller.objects.all()
+    # permissions_classes = [IsAuthenticatedAndOwner]
 
 
 class DillerListView(generics.ListAPIView):
@@ -40,6 +40,7 @@ class PlotterDeteilView(generics.RetrieveUpdateDestroyAPIView):
 # User
 class UserCreateView(generics.CreateAPIView):
     serializer_class = UserDetailSerializer
+    # permissions_classes = [IsAuthenticatedAndOwner]
 
 
 class UserListView(generics.ListAPIView):
