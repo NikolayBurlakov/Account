@@ -1,26 +1,44 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as DefaultUser, PermissionsMixin
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
-class Diller(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Name_of_dillers')
-    statistics_users = models.CharField(verbose_name='Statistics', max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class Users(models.Model):
+class User(DefaultUser):
     name_of_user = models.CharField(max_length=255, verbose_name='User_name')
-    diller = models.ManyToManyField(Diller, verbose_name='Диллер')
 
     def __str__(self):
         return self.name_of_user
 
 
+class Diller(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Name_of_dillers')
+    statistics_User = models.CharField(verbose_name='Statistics', max_length=100)
+    user = models.OneToOneField(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    created = models.DateField(auto_now_add=True)
+    updated = models.DateField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return self.name
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Diller.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
 class Plotter(models.Model):
     diller_id = models.ForeignKey(Diller, verbose_name='Name_of_dillers', on_delete=models.CASCADE)
-    user = models.OneToOneField(Users, verbose_name='Пользователь', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     statistics = models.TextField(max_length=1000, verbose_name='Статистика')
     name_plotter = models.CharField(max_length=255, verbose_name='Название')
     created = models.DateField(auto_now_add=True)
