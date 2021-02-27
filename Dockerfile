@@ -1,8 +1,9 @@
-FROM python:3
+FROM python:3.8
 
 ENV PYTHONUNBUFFERED=1
-RUN mkdir /code
+COPY ./code ./code
 WORKDIR /code
-COPY . /code/
+RUN pip install -U pip==21.0.1
 RUN pip install -r requirements.txt
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
 
